@@ -14,14 +14,24 @@ const app = express();
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
+// set our port
+app.set('port', process.env.PORT || 5000);
 
-(async ()=> {
-  
-  //Test the connection to the database
-  await sequelize.authenticate();
-  console.log('Testing the connection to the database');
+// start listening on our port
+const server = app.listen(app.get('port'), () => {
+  console.log(`Express server is listening on port ${server.address().port}`);
+});
 
-  
+
+//Test the connection to the database
+(async () => {
+
+  try {  
+    await sequelize.authenticate();
+    console.log('Testing the connection to the database');
+  }  catch(error) {
+      console.error('Unable to connect to the database', error);
+  }    
   
 })();
 
@@ -52,10 +62,3 @@ app.use((err, req, res, next) => {
   });
 });
 
-// set our port
-app.set('port', process.env.PORT || 5000);
-
-// start listening on our port
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express server is listening on port ${server.address().port}`);
-});
