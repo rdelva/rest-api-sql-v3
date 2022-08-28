@@ -1,5 +1,11 @@
 'use strict';
 
+const { sequelize, models } = require('./models');
+
+//Get reference to our models
+const {User, Course} = models
+
+
 // load modules
 const express = require('express');
 const morgan = require('morgan');
