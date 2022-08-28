@@ -1,8 +1,11 @@
 'use strict';
 
 const express = require('express');
+const app = require('./app');
+
 const router = express.Router();
 const  User  = require('./models').User;
+
 
 
 function asyncHandler(cb){
@@ -18,10 +21,9 @@ function asyncHandler(cb){
 
 router.get('/users', asyncHandler( async (req, res) => {
 
-    const users = await User.findAll();
-    console.log(users);
+    const users = await User.findAll({});
 
-    res.json( users  );
+    res.json(users);
   }));
 
 
