@@ -1,26 +1,24 @@
 'use strict';
+const express = require('express');
+const app = express(); // create the Express app
+const routes = require('./routes'); //add routes
+
 
 //const { sequelize, models } = require('./models');
 const sequelize = require('./models').sequelize; // import Sequelize
 
 
 // load modules
-const express = require('express');
+
 const morgan = require('morgan');
+app.use(express.json()); // Setup request body JSON parsing.
+app.use('/api', routes); // Add routes.
 
-
-//add routes
-const routes = require('./routes');
-
-//const sequelize = require('sequelize');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
 
 
-const app = express(); // create the Express app
-app.use(express.json()); // Setup request body JSON parsing.
-app.use('/api', routes); // Add routes.
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
@@ -82,4 +80,3 @@ app.use((err, req, res, next) => {
     error: {},
   });
 });
-
