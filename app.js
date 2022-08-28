@@ -1,6 +1,8 @@
 'use strict';
 
-const { sequelize, models } = require('./db');
+//const { sequelize, models } = require('./models');
+const sequelize = require('./models').sequelize; // import Sequelize
+
 
 // load modules
 const express = require('express');
@@ -15,12 +17,10 @@ const routes = require('./routes');
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
 
-// create the Express app
-const app = express();
 
-// Setup request body JSON parsing.
-app.use(express.json());
-
+const app = express(); // create the Express app
+app.use(express.json()); // Setup request body JSON parsing.
+app.use('/api', routes); // Add routes.
 
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
@@ -34,6 +34,8 @@ const server = app.listen(app.get('port'), () => {
 });
 
 
+
+
 //Test the connection to the database
 (async () => {
 
@@ -43,16 +45,13 @@ const server = app.listen(app.get('port'), () => {
     
     // Sync the models
     console.log('Synchronizing the models with the database...');
-    await sequelize.sync({ force: true });
+    await sequelize.sync();
 
   }  catch(error) {
       console.error('Unable to connect to the database', error);
   }    
   
 })();
-
-// Add routes.
-app.use('/api', routes);
 
 
 
@@ -62,6 +61,8 @@ app.get('/', (req, res) => {
     message: 'Welcome to the REST API project!',
   });
 });
+
+
 
 // send 404 if no other route matched
 app.use((req, res) => {
