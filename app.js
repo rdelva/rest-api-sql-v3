@@ -1,18 +1,17 @@
 'use strict';
-const express = require('express');
-const app = express(); // create the Express app
-const routes = require('./routes'); //add routes
-
-
-//const { sequelize, models } = require('./models');
-const sequelize = require('./models').sequelize; // import Sequelize
-
 
 // load modules
-
+const express = require('express');
 const morgan = require('morgan');
+const routes = require('./routes'); //add routes
+const app = express(); // create the Express app
+const { sequelize } = require('./models'); // import Sequelize
+
 app.use(express.json()); // Setup request body JSON parsing.
 app.use('/api', routes); // Add routes.
+
+//const { sequelize, models } = require('./models');
+
 
 
 // variable to enable global error logging
