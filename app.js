@@ -1,10 +1,6 @@
 'use strict';
 
-const { sequelize, models } = require('./models');
-
-//Get reference to our models
-const {User, Course} = models;
-
+const { sequelize, models } = require('./db');
 
 // load modules
 const express = require('express');
