@@ -3,13 +3,13 @@
 const { sequelize, models } = require('./models');
 
 //Get reference to our models
-const {User, Course} = models
+const {User, Course} = models;
 
 
 // load modules
 const express = require('express');
 const morgan = require('morgan');
-const sequelize = require('sequelize');
+//const sequelize = require('sequelize');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -35,6 +35,11 @@ const server = app.listen(app.get('port'), () => {
   try {  
     await sequelize.authenticate();
     console.log('Testing the connection to the database');
+    
+    // Sync the models
+    console.log('Synchronizing the models with the database...');
+    await sequelize.sync({ force: true });
+
   }  catch(error) {
       console.error('Unable to connect to the database', error);
   }    
