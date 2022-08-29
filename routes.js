@@ -3,7 +3,7 @@
 const express = require('express');
 
 const router = express.Router();
-const {User, Course} = require('./models');
+const {Users, Courses} = require('./models');
 
 
 
@@ -20,11 +20,18 @@ function asyncHandler(cb){
 
 router.get('/users', asyncHandler( async (req, res) => {
 
-   
-
-     const users = await User.findAll();
-     console.log({users})   ;
-     res.json({greeting: "Hello World"});
+     const user = await Users.findAll();
+    
+     console.log({
+        id: user.id,
+        lastName: user.lastName,
+        firstName: user.firstName,
+    });
+     res.json({
+        id: user.id,
+        lastName: user.lastName,
+        firstName: user.firstName,
+    });
   }));
 
 
