@@ -38,24 +38,17 @@ router.get('/users', asyncHandler( async (req, res) => {
   }));
 
   router.get('/users/:id', asyncHandler( async (req, res) => {
-
     const user = await User.findByPk(req.params.id);
+    console.log(user); 
+    res.json(user);
 
-    console.log(user);
-   
-   //  console.log({
-   //     id: user.id,
-   //     lastName: user.lastName,
-   //     firstName: user.firstName,
-   // });
-   //  res.json({
-   //     id: user.id,
-   //     lastName: user.lastName,
-   //     firstName: user.firstName,
-   // });
-   res.json(user);
  }));
 
 
+ router.get('/courses', asyncHandler(async (req, res) => {
+    const course = await Course.findAll();
+    res.json(course);
+
+ }));
 
 module.exports = router;
