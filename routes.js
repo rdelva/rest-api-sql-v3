@@ -62,7 +62,7 @@ router.post('/users', async (req, res) =>{
             as: 'student'
     }],
     });
-    res.json(course);
+    res.json(course).status(201);
 
  }));
 
