@@ -60,10 +60,13 @@ router.post('/users', async (req, res) =>{
         include: [{
             model: User,
             as: 'student'
-    }],
+        }],
     });
-    res.json(course).status(201);
-
+    if(course){
+        res.json(course).status(201);
+    } else {
+        res.status(404).json({message: 'Courses not found'});
+    }  
  }));
 
 
