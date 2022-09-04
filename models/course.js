@@ -21,15 +21,16 @@ module.exports = (sequelize) => {
         materialsNeeded: {
             type: DataTypes.STRING,
             allowNull: false,
-        }
+        },  
 
     }, {sequelize});
     
     //DB Associations
     Course.associate = (models) => {
         Course.belongsTo( models.User, {
+            as: 'user', // allias
             foreignKey:{
-                fieldName: 'courseId',
+                fieldName: 'userId',
                 allowNull: false,
             }
         });
