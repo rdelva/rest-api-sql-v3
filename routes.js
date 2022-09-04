@@ -18,24 +18,41 @@ function asyncHandler(cb){
 }
 
 
+//Send a GET request that returns all properties & values  for the authenticated users
 router.get('/users', asyncHandler( async (req, res) => {
 
-     const user = await User.findAll();
+    const user = await User.findAll();
+    if(user) {
+        res.status(200).json(user);
+    } else {
+        res.status(404).json({message: 'User not found'});
+    }   
+}));
 
-     console.log(user.lastName);
+
+//Send a POST request that will create a new user
+router.post('/users', async (req, res) =>{
     
-    //  console.log({
-    //     id: user.id,
-    //     lastName: user.lastName,
-    //     firstName: user.firstName,
-    // });
-    //  res.json({
-    //     id: user.id,
-    //     lastName: user.lastName,
-    //     firstName: user.firstName,
-    // });
-    res.json(user);
-  }));
+    if(req.body.firstName && req.body.lastName && req.body.emailAddress && req.body.password){
+        const  user = await User.create({
+            
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            emailAddress: req.body.emailAddress,
+            password: req.body.password
+        });
+        
+        
+        res.setHeader('location', '/');
+        res.json(user).status(201);
+
+    }else {
+
+        res.status(400).json({message: "First Name, Last Name, Email Address, Password is required"});
+    }
+    
+    
+});
 
   router.get('/users/:id', asyncHandler( async (req, res) => {
     const user = await User.findByPk(req.params.id);
