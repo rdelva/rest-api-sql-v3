@@ -32,6 +32,7 @@ module.exports = (sequelize) => {
     User.associate = (models) => {
         //DB Associations
         User.hasMany(models.Course, {
+            as: 'user', // allias
             foreignKey: {
                 fieldName: 'userId',
                 allowNull:false,
