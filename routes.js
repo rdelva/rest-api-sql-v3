@@ -43,8 +43,8 @@ router.post('/users', async (req, res) =>{
             password: req.body.password
         });      
         
-        res.setHeader('location', '/');
-        res.json(user).status(201);
+        res.setHeader('location', '/').json(user);
+        res.status(201).end();
 
     }else {
 
@@ -63,7 +63,7 @@ router.post('/users', async (req, res) =>{
         }],
     });
     if(course){
-        res.json(course).status(201);
+        res.json(course).status(200);
     } else {
         res.status(404).json({message: 'Courses not found'});
     }  
