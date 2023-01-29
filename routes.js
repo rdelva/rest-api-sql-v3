@@ -93,4 +93,24 @@ router.post('/users', async (req, res) =>{
 
 
 
+// Create route that will create a new course, set the Location header to the URI for the newly created course, and return a 201 HTTP status code and no content.
+ router.post('/courses/', asyncHandler( async (req, res) => {
+    const  course = await Course.create({            
+        title: req.body.title,
+        description: req.body.description,
+        estimatedTime: req.body.estimatedTime,
+        materialsNeeded:  req.body.materialsNeeded,
+        userId: req.body.userId
+    });      
+    
+    res.setHeader('location', `/${req.body.title}`).json(course);
+    res.status(201).end();
+
+
+
+ }));
+
+
+
+
 module.exports = router;

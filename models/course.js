@@ -7,7 +7,7 @@ module.exports = (sequelize) => {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true,           
+            autoIncrement: true, 
         },
         title: {
             type: DataTypes.STRING,
@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
         }, 
         materialsNeeded: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
         },  
     
 
@@ -36,6 +36,7 @@ module.exports = (sequelize) => {
             as: 'student', // allias
             foreignKey:{
                 fieldName: 'userId',
+                field: 'userId',
                 allowNull: false,
             }
         });

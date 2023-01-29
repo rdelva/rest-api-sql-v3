@@ -35,7 +35,8 @@ module.exports = (sequelize) => {
             as: 'student', // allias
             foreignKey: {
                 fieldName: 'userId',
-                allowNull:false,
+                field: 'userId',
+                allowNull: false,
             }
         });
     }
