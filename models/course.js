@@ -18,10 +18,16 @@ module.exports = (sequelize) => {
             estimatedTime: DataTypes.STRING,
             allowNull: false,
         },
+        estimatedTime: {
+            type: DataTypes.STRING,
+            allownNull: true,
+
+        }, 
         materialsNeeded: {
             type: DataTypes.STRING,
             allowNull: false,
         },  
+    
 
     }, {sequelize});
     
