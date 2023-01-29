@@ -54,7 +54,10 @@ router.post('/users', async (req, res) =>{
 });
 
 
+// Courses Routes/
 
+
+//Get all the courses
  router.get('/courses', asyncHandler(async (req, res) => {
     const course = await Course.findAll({
         include: [{
@@ -71,10 +74,15 @@ router.post('/users', async (req, res) =>{
 
 
 
- router.get('/users/:id', asyncHandler( async (req, res) => {
-    const user = await User.findByPk(req.params.id);
-    console.log(user); 
-    res.json(user);
+ router.get('/courses/:id', asyncHandler( async (req, res) => {
+    const course = await User.findByPk(req.params.id);
+    console.log(course); 
+    
+    if(course){
+        res.json(course).status(200);
+    } else {
+        res.status.json({message:'Course not found'});
+    }    
 
  }));
 
