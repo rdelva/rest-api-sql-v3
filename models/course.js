@@ -15,7 +15,6 @@ module.exports = (sequelize) => {
         },
         description: {
             type: DataTypes.TEXT,
-            estimatedTime: DataTypes.STRING,
             allowNull: false,
         },
         estimatedTime: {
