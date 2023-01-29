@@ -75,8 +75,12 @@ router.post('/users', async (req, res) =>{
 
 
  router.get('/courses/:id', asyncHandler( async (req, res) => {
-    const course = await User.findByPk(req.params.id);
-    console.log(course); 
+    const course = await Course.findByPk(req.params.id, {
+        include: [{
+            model: User,
+            as: 'student'
+        }],
+    });
     
     if(course){
         res.json(course).status(200);
