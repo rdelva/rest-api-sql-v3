@@ -105,12 +105,14 @@ router.post('/users', async (req, res) =>{
     
     res.setHeader('location', `/${req.body.title}`).json(course);
     res.status(201).end();
-
-
-
  }));
 
-
+//This route will update the corresponding course and return a 204 HTTP status code
+ router.put('/courses/:id', asyncHandler( async (req, res) => {
+    const course = await Course.findByPk(req.params.id);
+    await course.update(req.body);
+    res.status(204).end();
+ }));
 
 
 module.exports = router;
