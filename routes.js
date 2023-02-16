@@ -34,7 +34,7 @@ router.get('/users', asyncHandler( async (req, res) => {
 router.post('/users', async (req, res) =>{
     
     if(req.body.firstName && req.body.lastName && req.body.emailAddress && req.body.password){
-        
+       
         const  user = await User.create({
             
             firstName: req.body.firstName,
@@ -42,11 +42,10 @@ router.post('/users', async (req, res) =>{
             emailAddress: req.body.emailAddress,
             password: req.body.password
         });              
-        res.setHeader('location', '/').json(user);
-        res.status(201).end();
+        res.setHeader('location', '/');
+        res.status(201).json(user).end();
 
     } else {
-
         res.status(400).json({message: "First Name, Last Name, Email Address, Password is required"});
     } 
     
@@ -102,8 +101,8 @@ router.post('/users', async (req, res) =>{
         userId: req.body.userId
     });      
     
-    res.setHeader('location', `/${req.body.title}`).json(course);
-    res.status(201).end();
+    res.setHeader('location', `/${req.body.title}`);
+    res.status(201).json(course).end();
  }));
 
 //This route will update the corresponding course and return a 204 HTTP status code
