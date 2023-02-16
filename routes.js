@@ -41,12 +41,11 @@ router.post('/users', async (req, res) =>{
             lastName: req.body.lastName,
             emailAddress: req.body.emailAddress,
             password: req.body.password
-        });      
-        
+        });              
         res.setHeader('location', '/').json(user);
         res.status(201).end();
 
-    }else {
+    } else {
 
         res.status(400).json({message: "First Name, Last Name, Email Address, Password is required"});
     } 
