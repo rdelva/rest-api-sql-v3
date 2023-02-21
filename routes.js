@@ -76,7 +76,7 @@ router.post('/users',  async (req, res) =>{
             password:user.password
         }); 
         // add the user profile and set location to '/'
-        res.setHeader('location', '/');
+        //res.setHeader('location', '/');
         res.status(201).json(user).end();       
    }
 
@@ -124,9 +124,9 @@ router.post('/users',  async (req, res) =>{
 
 
 // Create route that will create a new course, set the Location header to the URI for the newly created course, and return a 201 HTTP status code and no content.
- router.post('/courses',  authenticateUser, asyncHandler( async (req, res) => {
-   const user = req.currentUser;
-   console.log(user);
+ router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
+   //const user = req.currentUser;
+   
    const  course = await Course.create({            
         title: req.body.title,
         description: req.body.description,
