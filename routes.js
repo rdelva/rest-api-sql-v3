@@ -15,16 +15,6 @@ const {User, Course} = require('./models');
 
 //Send a GET request that returns all properties & values  for the authenticated users
 router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
-    // console.log(req);
-    // const userProfile = req.currentUser;
-    // console.log("Hi");
-    // console.log(userProfile.json);
-
-//     const userProfile = req.currentUser;
-//     res.json({
-//         name: userProfile.name,
-//         username: userProfile.username
-//    });
 
     const user = req.currentUser;
     //user = await User.findAll();
