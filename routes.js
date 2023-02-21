@@ -29,22 +29,6 @@ router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
 //Send a POST request that will create a new user
 router.post('/users', async (req, res) =>{
     
-    // if(req.body.firstName && req.body.lastName && req.body.emailAddress && req.body.password){
-       
-        // const  user = await User.create({
-            
-        //     firstName: req.body.firstName,
-        //     lastName: req.body.lastName,
-        //     emailAddress: req.body.emailAddress,
-        //     password: req.body.password
-        // });              
-        // res.setHeader('location', '/');
-        // res.status(201).json(user).end();
-
-    // } else {
-    //     res.status(400).json({message: "First Name, Last Name, Email Address, Password is required"});
-    // } 
-
     const user = req.body;
     console.log(user);
     const errors = [];
