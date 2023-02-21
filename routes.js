@@ -1,6 +1,9 @@
 'use strict';
 
 const express = require('express');
+const { asyncHandler } = require('./middleware/async-handler');
+const { authenticateUser } = require('./middleware/auth-user');
+
 
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -8,15 +11,6 @@ const {User, Course} = require('./models');
 
 
 
-function asyncHandler(cb){
-    return async (req, res, next)=>{
-      try {
-        await cb(req,res, next);
-      } catch(err){
-        next(err);
-      }
-    };
-}
 
 
 //Send a GET request that returns all properties & values  for the authenticated users
