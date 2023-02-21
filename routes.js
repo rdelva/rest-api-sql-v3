@@ -19,9 +19,9 @@ router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
     const user = req.currentUser;
     //user = await User.findAll();
     if(user) {
-        res.status(200).json(user);
+          res.status(200).json(user);
     } else {
-        res.status(404).json({message: 'User not found'});
+         res.status(404).json({message: 'User not found'});
     }   
 }));
 
@@ -125,7 +125,7 @@ router.post('/users',  async (req, res) =>{
 
 // Create route that will create a new course, set the Location header to the URI for the newly created course, and return a 201 HTTP status code and no content.
  router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
-   //const user = req.currentUser;
+   const user = req.currentUser;
    
    const  course = await Course.create({            
         title: req.body.title,
@@ -135,9 +135,9 @@ router.post('/users',  async (req, res) =>{
         userId: req.body.userId
     }); 
 
-    
+        
    res.setHeader('location', `/${req.body.title}`);
-    res.status(201).json(course).end();
+   res.status(201).json(course).end();
     
  }));
 
