@@ -27,7 +27,7 @@ router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
 
 
 //Send a POST request that will create a new user
-router.post('/users', async (req, res) =>{
+router.post('/users',  async (req, res) =>{
     
     const user = req.body;
     console.log(user);
@@ -124,17 +124,21 @@ router.post('/users', async (req, res) =>{
 
 
 // Create route that will create a new course, set the Location header to the URI for the newly created course, and return a 201 HTTP status code and no content.
- router.post('/courses/', asyncHandler( async (req, res) => {
-    const  course = await Course.create({            
+ router.post('/courses',  authenticateUser, asyncHandler( async (req, res) => {
+   const user = req.currentUser;
+   console.log(user);
+   const  course = await Course.create({            
         title: req.body.title,
         description: req.body.description,
         estimatedTime: req.body.estimatedTime,
         materialsNeeded:  req.body.materialsNeeded,
         userId: req.body.userId
-    });      
+    }); 
+
     
-    res.setHeader('location', `/${req.body.title}`);
+   res.setHeader('location', `/${req.body.title}`);
     res.status(201).json(course).end();
+    
  }));
 
 //This route will update the corresponding course and return a 204 HTTP status code
