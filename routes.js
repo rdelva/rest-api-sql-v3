@@ -83,7 +83,7 @@ router.post('/users', async (req, res) =>{
     if(course){
         res.json(course).status(200);
     } else {
-        res.status.json({message:'Course not found'});
+        res.status(404).json({message:'Course not found'});
     }    
 
  }));
