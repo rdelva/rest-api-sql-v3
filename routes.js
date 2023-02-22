@@ -143,7 +143,7 @@ router.post('/users',  async (req, res) =>{
  }));
 
 //This route will update the corresponding course and return a 204 HTTP status code
- router.put('/courses/:id', asyncHandler( async (req, res) => {
+ router.put('/courses/:id', authenticateUser, asyncHandler( async (req, res) => {
     const course = await Course.findByPk(req.params.id);
     await course.update(req.body);
     res.status(204).end();
