@@ -30,7 +30,7 @@ router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
 router.post('/users',  async (req, res) =>{
     
     const user = req.body;
-    console.log(user);
+ 
     const errors = [];
 
     //Validate thane we have a name value
