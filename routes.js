@@ -124,7 +124,7 @@ router.post('/users',  async (req, res) =>{
 
 
 // Create route that will create a new course, set the Location header to the URI for the newly created course, and return a 201 HTTP status code and no content.
- router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
+router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
    
     const course = req.body;   
     const errors = [];
@@ -151,13 +151,9 @@ router.post('/users',  async (req, res) =>{
         });
         res.setHeader('location', `/${course.title}`);
         res.status(201).json(course).end();
-    }
-
-
-
-
-            
- }));
+    } // end if & else statement
+           
+}));  //End of POST course route
 
 //This route will update the corresponding course and return a 204 HTTP status code
  router.put('/courses/:id', authenticateUser, asyncHandler( async (req, res) => {
