@@ -126,19 +126,36 @@ router.post('/users',  async (req, res) =>{
 // Create route that will create a new course, set the Location header to the URI for the newly created course, and return a 201 HTTP status code and no content.
  router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
    
-       const user = req.currentUser;
-    
-       const  course = await Course.create({            
-            title: req.body.title,
-            description: req.body.description,
-            estimatedTime: req.body.estimatedTime,
-            materialsNeeded:  req.body.materialsNeeded,
-            userId: req.body.userId
-        }); 
+    const course = req.body;   
+    const errors = [];
+   
+    if(!course.title){
+        errors.push('Please enter a title"');
+    }
+
+    if(!course.description){
+        errors.push('Please enter a description"');
+    }
+
+    if(errors.length > 0){
+        //Return the validation errors to the client
+        res.status(400).json({ errors });
+    } else {
+
+         await Course.create({            
+           title: course.title,
+           description: course.description,
+           estimatedTime: course.estimatedTime,
+           materialsNeeded:  course.materialsNeeded,
+           userId: course.userId
+        });
+        res.setHeader('location', `/${course.title}`);
+        res.status(201).json(course).end();
+    }
 
 
-            res.setHeader('location', `/${req.body.title}`);
-            res.status(201).json(course).end();
+
+
             
  }));
 
@@ -156,8 +173,6 @@ router.delete('/courses/:id', authenticateUser, asyncHandler( async (req, res) =
     await course.destroy(req.body);
     res.status(204).end();
  }));
-
-
 
 
 module.exports = router;
