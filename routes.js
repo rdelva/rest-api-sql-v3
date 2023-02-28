@@ -7,35 +7,35 @@ const { authenticateUser } = require('./middleware/auth-user');
 
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const {User, Course} = require('./models');
+const { User, Course } = require('./models');
 
 
 
 
 
 //Send a GET authenticated request that returns all properties & values  for the authenticated users
-router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
+router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
 
     const user = req.currentUser;
     //user = await User.findAll();
-    if(user) {
-          res.status(200).json(user);
+    if (user) {
+        res.status(200).json(user);
     } else {
-         res.status(404).json({message: 'User not found'});
-    }   
+        res.status(404).json({ message: 'User not found' });
+    }
 }));
 
 
 //Send a POST request that will create a new user
-router.post('/users',  async (req, res) =>{
-    
+router.post('/users', async (req, res) => {
+
     const user = req.body;
- 
+
     const errors = [];
 
     //Validate thane we have a name value
 
-    if(!user.firstName){
+    if (!user.firstName) {
         errors.push('Please provide a value for "first name"');
     }
 
@@ -44,7 +44,7 @@ router.post('/users',  async (req, res) =>{
         errors.push('Please provide a value for "last name"');
     }
 
-    
+
     // Validate that we have an `email` value.
     if (!user.emailAddress) {
         errors.push('Please provide a value for "email"');
@@ -61,26 +61,26 @@ router.post('/users',  async (req, res) =>{
         console.log(user.password);
     }
 
-     // If there are any errors...
+    // If there are any errors...
     if (errors.length > 0) {
         // Return the validation errors to the client.
         res.status(400).json({ errors });
-    } else { 
-    
+    } else {
+
         // Set the status to 201 Created and end the response.
         await User.create({
-            
+
             firstName: user.firstName,
             lastName: user.lastName,
             emailAddress: user.emailAddress,
-            password:user.password
-        }); 
+            password: user.password
+        });
         // add the user profile and set location to '/'
         res.setHeader('location', '/');
-        res.status(201).json(user).end();       
-   }
+        res.status(201).json(user).end();
+    }
 
-    
+
 });
 
 
@@ -88,104 +88,107 @@ router.post('/users',  async (req, res) =>{
 
 
 //Get all the courses
- router.get('/courses', asyncHandler(async (req, res) => {
+router.get('/courses', asyncHandler(async (req, res) => {
     const course = await Course.findAll({
         include: [{
             model: User,
             as: 'student'
         }],
     });
-    if(course){
+    if (course) {
         res.json(course).status(200);
     } else {
-        res.status(404).json({message: 'Courses not found'});
-    }  
- }));
+        res.status(404).json({ message: 'Courses not found' });
+    }
+}));
 
 
 
- router.get('/courses/:id', asyncHandler( async (req, res) => {
+router.get('/courses/:id', asyncHandler(async (req, res) => {
     const course = await Course.findByPk(req.params.id, {
         include: [{
             model: User,
             as: 'student'
         }],
     });
-    
-    if(course){
+
+    if (course) {
         res.json(course).status(200);
     } else {
-        res.status(404).json({message:'Course not found'});
-    }    
+        res.status(404).json({ message: 'Course not found' });
+    }
 
- }));
+}));
 
 
 
 
 // Create route that will create a new course, set the Location header to the URI for the newly created course, and return a 201 HTTP status code and no content.
-router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
-   
-    const course = req.body;   
+router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
+
+    const course = req.body;
     const errors = [];
-   
-    if(!course.title){
+
+    if (!course.title) {
+
         errors.push('Please enter a title"');
     }
 
-    if(!course.description){
+    if (!course.description) {
         errors.push('Please enter a description"');
     }
 
-    if(errors.length > 0){
+    if (errors.length > 0) {
         //Return the validation errors to the client
         res.status(400).json({ errors });
     } else {
 
-         await Course.create({            
-           title: course.title,
-           description: course.description,
-           estimatedTime: course.estimatedTime,
-           materialsNeeded:  course.materialsNeeded,
-           userId: course.userId
+        await Course.create({
+            title: course.title,
+            description: course.description,
+            estimatedTime: course.estimatedTime,
+            materialsNeeded: course.materialsNeeded,
+            userId: course.userId
         });
         res.setHeader('location', `/${course.title}`);
         res.status(201).json(course).end();
     } // end if & else statement
-           
+
 }));  //End of POST course route
 
 //This route will update the corresponding course and return a 204 HTTP status code
- router.put('/courses/:id', authenticateUser, asyncHandler( async (req, res) => {
-    const course = await Course.findByPk(req.params.id);
-    
+router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
+
+    const course = await Course.findByPk(req.params.id); // finds the record that the user is searching for
+    const courseListing = req.body; //takes the info from the form
+
     const errors = [];
 
-    if(!course.title){
+    if (!courseListing.title) {
         errors.push('Please enter a title"');
     }
 
-    if(!course.description){
+    if (!courseListing.description) {
         errors.push('Please enter a description"');
     }
 
-    if(errors.length > 0){
+    if (errors.length > 0) {
         //Return the validation errors to the client
         res.status(400).json({ errors });
     } else {
         await course.update(req.body);
         res.status(204).end();
     } // end if & else statement
-   
- }));
+
+}));
 
 
 //This route will delete the corresponding course and return a 204 HTTP status code
-router.delete('/courses/:id', authenticateUser, asyncHandler( async (req, res) => {
+router.delete('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     const course = await Course.findByPk(req.params.id);
     await course.destroy(req.body);
     res.status(204).end();
- }));
+}));
 
 
 module.exports = router;
