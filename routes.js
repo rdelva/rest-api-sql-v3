@@ -158,8 +158,25 @@ router.post('/courses', authenticateUser, asyncHandler( async (req, res) => {
 //This route will update the corresponding course and return a 204 HTTP status code
  router.put('/courses/:id', authenticateUser, asyncHandler( async (req, res) => {
     const course = await Course.findByPk(req.params.id);
-    await course.update(req.body);
-    res.status(204).end();
+    
+    const errors = [];
+
+    if(!course.title){
+        errors.push('Please enter a title"');
+    }
+
+    if(!course.description){
+        errors.push('Please enter a description"');
+    }
+
+    if(errors.length > 0){
+        //Return the validation errors to the client
+        res.status(400).json({ errors });
+    } else {
+        await course.update(req.body);
+        res.status(204).end();
+    } // end if & else statement
+   
  }));
 
 
