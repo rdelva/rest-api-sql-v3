@@ -130,7 +130,6 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
     const errors = [];
 
     if (!course.title) {
-
         errors.push('Please enter a title"');
     }
 
