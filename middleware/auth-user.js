@@ -12,9 +12,10 @@ exports.authenticateUser = async (req, res, next) => {
     // Parse the user's credentials from the Authorization header.
     const credentials = auth(req);
     console.log(credentials);
-   
+    console.log(credentials + "hi");
     
     if(credentials) {
+        
      const user = await User.findOne({ where: {emailAddress: credentials.name} });
     
         if (user) {
@@ -25,16 +26,19 @@ exports.authenticateUser = async (req, res, next) => {
                 // Store the user on the Request object.
                 req.currentUser = user;
             } else {
-                message = `User not found for username: ${credentials.name}`;
+                message = `Authentication failed for username: ${credentials.name}`;
+                //message = `User not found for username: ${credentials.name}`;
             }
         } else {
             message = 'Auth header not found';
         }
+    } else {
+        message = 'Please type in your username and password';
     }
-
+   
     if (message) {
         console.warn(message);
-        res.status(401).json({ message: 'Access Denied' });
+        res.status(401).json({ message: message });
     } else {
         next();
     }        
