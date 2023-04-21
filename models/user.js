@@ -21,6 +21,9 @@ module.exports = (sequelize) => {
         emailAddress: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: {
+                msg: 'The username already exists'
+            } 
         },
         password: {
             type: DataTypes.STRING,
