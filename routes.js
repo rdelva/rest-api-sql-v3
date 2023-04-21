@@ -86,7 +86,7 @@ router.post('/users', async (req, res) => {
               } else {
                 throw error;
               }
-        }       
+        }        
 
     }
 
