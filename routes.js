@@ -67,17 +67,27 @@ router.post('/users', async (req, res) => {
         res.status(400).json({ errors });
     } else {
 
-        // Set the status to 201 Created and end the response.
-        await User.create({
+        try {
+            await User.create({
 
-            firstName: user.firstName,
-            lastName: user.lastName,
-            emailAddress: user.emailAddress,
-            password: user.password
-        });
-        // add the user profile and set location to '/'
-        res.setHeader('location', '/');
-        res.status(201).json(user).end();
+                firstName: user.firstName,
+                lastName: user.lastName,
+                emailAddress: user.emailAddress,
+                password: user.password
+            });
+            // add the user profile and set location to '/'
+            res.setHeader('location', '/');
+            res.status(201).json(user).end();   // Set the status to 201 Created and end the response.
+
+        } catch (error){
+            if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+                const errors = error.errors.map(err => err.message);
+                res.status(400).json({ errors });   
+              } else {
+                throw error;
+              }
+        }       
+
     }
 
 
