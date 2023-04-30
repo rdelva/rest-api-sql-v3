@@ -16,8 +16,10 @@ const { User, Course } = require('./models');
 //Send a GET authenticated request that returns all properties & values  for the authenticated users
 router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
 
-    const user = req.currentUser;
-    //user = await User.findAll();
+    //const user = req.currentUser;
+    const user = await User.findAll({
+        attributes: {exclude: ['password','createdAt', 'updatedAt']}
+    });
     if (user) {
         res.status(200).json(user);
     } else {
@@ -104,6 +106,7 @@ router.get('/courses', asyncHandler(async (req, res) => {
             model: User,
             as: 'student'
         }],
+        
     });
     if (course) {
         res.json(course).status(200);
