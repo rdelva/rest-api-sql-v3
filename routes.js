@@ -195,8 +195,12 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
 //This route will delete the corresponding course and return a 204 HTTP status code
 router.delete('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     const course = await Course.findByPk(req.params.id);
+   if(course){
     await course.destroy(req.body);
     res.status(204).end();
+   } else {
+       res.status(404).json({ message: 'Course not found' });
+   }
 }));
 
 
