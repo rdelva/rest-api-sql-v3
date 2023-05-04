@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
                 isEmail: true,
             },
             unique: {
-                msg: 'The username already exists'
+                msg: 'Email Address already exists. Please use a different email address'
             } 
         },
         password: {
