@@ -161,15 +161,16 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
         res.status(400).json({ errors });
     } else {
 
-        await Course.create({
+        const courseRecord = await Course.create({
             title: course.title,
             description: course.description,
             estimatedTime: course.estimatedTime,
             materialsNeeded: course.materialsNeeded,
             userId: course.userId
         });
-        res.setHeader('location', `/${course.title}`);
-        res.status(201).json(course).end();
+        res.setHeader('location', `/courses/${courseRecord.id}`);
+        console.log(course);
+        res.status(201).end();
     } // end if & else statement
 
 }));  //End of POST course route
