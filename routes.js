@@ -168,8 +168,7 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
             materialsNeeded: course.materialsNeeded,
             userId: course.userId
         });
-        res.setHeader('location', `/courses/${courseRecord.id}`);
-        console.log(course);
+        res.setHeader('location', `/courses/${courseRecord.id}`);      
         res.status(201).end();
     } // end if & else statement
 
