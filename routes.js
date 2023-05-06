@@ -19,7 +19,7 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
   
     const user = await User.findOne({where: {emailAddress: req.currentUser.emailAddress},
         attributes: {exclude: ['password','createdAt', 'updatedAt']}
-     });
+    });
         
 
     if (user) {
