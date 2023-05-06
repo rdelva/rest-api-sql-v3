@@ -81,7 +81,7 @@ router.post('/users', async (req, res) => {
             });
             // add the user profile and set location to '/'
             res.setHeader('location', '/');
-            res.status(201).json(user).end();   // Set the status to 201 Created and end the response.
+            res.status(201).end();   // Set the status to 201 Created and end the response.
 
         } catch (error){
             if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
