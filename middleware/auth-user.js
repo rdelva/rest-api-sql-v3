@@ -33,7 +33,7 @@ exports.authenticateUser = async (req, res, next) => {
             message = 'Auth header not found. Authentication failed.';
         }
     } else {
-        message = 'Please type in your username and password';
+        message = 'Not Authorized';
     }
    
     if (message) {
