@@ -179,24 +179,31 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
 
     const course = await Course.findByPk(req.params.id); // finds the record that the user is searching for
     const courseListing = req.body; //takes the info from the form
-
+    // console.log(req.currentUser.id);
+    // console.log("Hi" + course.userId);
     const errors = [];
 
-    if (!courseListing.title) {
-        errors.push('Please enter a title"');
-    }
+    //Checks if the course belongs to the user signing in by checking the email address
+    if(req.currentUser.id == course.userId){
+        if (!courseListing.title) {
+            errors.push('Please enter a title"');
+        }
+    
+        if (!courseListing.description) {
+            errors.push('Please enter a description"');
+        }
+            
+        if (errors.length > 0) {
+            //Return the validation errors to the client
+            res.status(400).json({ errors });
+        } else {
+            await course.update(req.body);
+            res.status(204).end();
+        } // end if & else statement
 
-    if (!courseListing.description) {
-        errors.push('Please enter a description"');
-    }
-
-    if (errors.length > 0) {
-        //Return the validation errors to the client
-        res.status(400).json({ errors });
     } else {
-        await course.update(req.body);
-        res.status(204).end();
-    } // end if & else statement
+        res.status(403).json({message: "You are not authorized to change this course"});
+    }
 
 }));
 

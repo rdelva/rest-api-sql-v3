@@ -38,7 +38,7 @@ exports.authenticateUser = async (req, res, next) => {
    
     if (message) {
         console.warn(message);
-        res.status(403).json({ message: message });
+        res.status(401).json({ message: message });
     } else {
         next();
     }        
