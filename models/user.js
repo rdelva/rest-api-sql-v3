@@ -15,6 +15,8 @@ module.exports = (sequelize) => {
             allowNull:false,
             validate:{
                 isAlpha:true,
+                msg: "Please enter name with the valid characters [Aa-Za]"
+
             },
         },
         lastName: {
@@ -22,6 +24,7 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate:{
                 isAlpha:true,
+                msg: "Please enter name with the valid characters [Aa-Za]"
             },
         },
         emailAddress: {
