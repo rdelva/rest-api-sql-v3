@@ -14,17 +14,18 @@ module.exports = (sequelize) => {
             type:DataTypes.STRING,
             allowNull:false,
             validate:{
-                isAlpha:true,
-                msg: "Please enter name with the valid characters [Aa-Za]"
-
+                isAlpha:{
+                    msg: "Please enter a first name with the valid characters [Aa-Za]",
+                },               
             },
         },
         lastName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate:{
-                isAlpha:true,
-                msg: "Please enter name with the valid characters [Aa-Za]"
+                isAlpha:{
+                    msg: "Please enter last name with the valid characters [Aa-Za]",
+                },               
             },
         },
         emailAddress: {
@@ -34,7 +35,7 @@ module.exports = (sequelize) => {
                 isEmail: true,
             },
             unique: {
-                msg: 'Email Address already exists. Please use a different email address'
+                msg: "Email Address already exists. Please use a different email address",
             } 
         },
         password: {
