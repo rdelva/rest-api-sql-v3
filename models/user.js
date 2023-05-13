@@ -18,8 +18,8 @@ module.exports = (sequelize) => {
                 isAlpha:{
                     msg: "Please enter a first name with the valid characters [Aa-Za]",
                 },
-                notNull: {
-                    msg: "Please enter a first name.",
+                notEmpty: {
+                    msg: "First Name is required.",
                 }               
             },
         },
@@ -30,8 +30,8 @@ module.exports = (sequelize) => {
                 isAlpha:{
                     msg: "Please enter last name with the valid characters [Aa-Za]",
                 },                
-                notNull: {
-                    msg: "Please enter a last name.",
+                notEmpty: {
+                    msg: "Last Name is required.",
                 }               
             },
         },
@@ -39,10 +39,9 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                isEmail: true,
-            },
-            notNull: {
-                msg: "Please enter a email address.",
+                isEmail:{ 
+                    msg:"Please enter a valid email address"                      
+                },
             },
             unique: {
                 msg: "Email Address already exists. Please use a different email address",
@@ -53,22 +52,23 @@ module.exports = (sequelize) => {
             allowNull: false,
             validate: {
                 notNull: {
-                  msg: 'A password is required'
+                  msg: "A password is required"
                 },
                 notEmpty: {
-                  msg: 'Please provide a password'
+                  msg: "Please provide a password"
                 },
                 len: {
-                  args: [[8, 20]],
-                  msg: 'The password should be between 8 and 20 characters in length'
+                  args: [8, 20],
+                  msg: "The password should be between 8 and 20 characters in length"
+                },
+                set(val) {
+                    if (val) {
+                      const hashedPassword = bcrypt.hashSync(val, 10);
+                      this.setDataValue('password', hashedPassword);
+                    }
                 },
             },
-            set(val) {
-                if (val) {
-                  const hashedPassword = bcrypt.hashSync(val, 10);
-                  this.setDataValue('password', hashedPassword);
-                }
-            },
+
         },
     }, { sequelize });
 
