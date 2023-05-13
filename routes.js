@@ -133,8 +133,6 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
 
     const course = await Course.findByPk(req.params.id); // finds the record that the user is searching for
     const courseListing = req.body; //takes the info from the form
-    // console.log(req.currentUser.id);
-    // console.log("Hi" + course.userId);
     const errors = [];
 
     //Checks if the course belongs to the user signing in by checking the email address
