@@ -31,12 +31,9 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
 
 
 //Send a POST request that will create a new user
-router.post('/users', async (req, res) => {
-
-    const user = req.body; 
+router.post('/users', async (req, res) => { 
 
     try {
-        console.log(req.body.password.length);
         await User.create(req.body);
         // add the user profile and set location to '/'
         res.setHeader('location', '/');
