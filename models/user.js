@@ -19,8 +19,11 @@ module.exports = (sequelize) => {
                     msg: "Please enter a first name with the valid characters [Aa-Za]",
                 },
                 notEmpty: {
-                    msg: "First Name is required.",
-                }               
+                    msg: "Please enter a first name",
+                },
+                notNull: {
+                    msg: "A first name is required"
+                },               
             },
         },
         lastName: {
@@ -31,8 +34,11 @@ module.exports = (sequelize) => {
                     msg: "Please enter last name with the valid characters [Aa-Za]",
                 },                
                 notEmpty: {
-                    msg: "Last Name is required.",
-                }               
+                    msg: "Please enter a last name",
+                },
+                notNull: {
+                    msg: "A last name is required"
+                },                
             },
         },
         emailAddress: {
@@ -42,6 +48,9 @@ module.exports = (sequelize) => {
                 isEmail:{ 
                     msg:"Please enter a valid email address"                      
                 },
+                notNull: {
+                    msg: "An email address is required"
+                }, 
             },
             unique: {
                 msg: "Email Address already exists. Please use a different email address",
