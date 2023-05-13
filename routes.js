@@ -33,66 +33,21 @@ router.get('/users', authenticateUser, asyncHandler(async (req, res) => {
 //Send a POST request that will create a new user
 router.post('/users', async (req, res) => {
 
-    const user = req.body;
+    const user = req.body; 
 
-    const errors = [];
-
-    //Validate thane we have a name value
-
-    if (!user.firstName) {
-        errors.push('Please provide a value for "first name"');
-    }
-
-    // Validate that we have an `last name` value.
-    if (!user.lastName) {
-        errors.push('Please provide a value for "last name"');
-    }
-
-
-    // Validate that we have an `email` value.
-    if (!user.emailAddress) {
-        errors.push('Please provide a value for "email"');
-    }
-
-    // Validate that we have a `password` value.
-    let password = user.password;
-    if (!password) {
-        errors.push('Please provide a value for "password"');
-    } else if (password.length < 8 || password.length > 20) {
-        errors.push('Your password should be between 8 and 20 characters');
-    } else {
-        user.password = bcrypt.hashSync(password, 10);        ;
-    }
-
-    // If there are any errors...
-    if (errors.length > 0) {
-        // Return the validation errors to the client.
-        res.status(400).json({ errors });
-    } else {
-
-        try {
-            await User.create({
-
-                firstName: user.firstName,
-                lastName: user.lastName,
-                emailAddress: user.emailAddress,
-                password: user.password
-            });
-            // add the user profile and set location to '/'
-            res.setHeader('location', '/');
-            res.status(201).end();   // Set the status to 201 Created and end the response.
-
-        } catch (error){
-            if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
-                const errors = error.errors.map(err => err.message);
-                res.status(400).json({ errors });   
-              } else {
-                throw error;
-              }
-        }        
+    try {
+        console.log(req.body.password.length);
+        await User.create(req.body);
+        res.status(201).json({"message": "Account sucessfully created!"});
+    } catch (error){
+        if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+            const errors = error.errors.map(err => err.message);
+            res.status(400).json({ errors });   
+          } else {
+            throw error;
+          }
 
     }
-
 
 });
 
