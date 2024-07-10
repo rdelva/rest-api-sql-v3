@@ -3,11 +3,12 @@
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors'); // Simple Usage (Enable All CORS Requests)
 const routes = require('./routes'); //add routes
 const app = express(); // create the Express app
 app.use(express.json()); // Setup request body JSON parsing.
 app.use('/api', routes); // Add routes.
-
+app.use(cors());  //Add CORS
 //const { sequelize, models } = require('./models');
 const sequelize = require('./models').sequelize; // import Sequelize
 
@@ -22,10 +23,25 @@ app.use(morgan('dev'));
 // set our port
 app.set('port', process.env.PORT || 5000);
 
+
+//Simple Usage (Enable All CORS Requests)
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
+ 
+app.listen(80, function () {
+  console.log('CORS-enabled web server listening on port 80')
+})
+
+
+
+
 // start listening on our port
 const server = app.listen(app.get('port'), () => {
   console.log(`Express server is listening on port ${server.address().port}`);
 });
+
+
 
 
 
