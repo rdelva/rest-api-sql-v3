@@ -7,8 +7,9 @@ const cors = require('cors'); // Simple Usage (Enable All CORS Requests)
 const routes = require('./routes'); //add routes
 const app = express(); // create the Express app
 app.use(express.json()); // Setup request body JSON parsing.
-app.use('/api', routes); // Add routes.
 app.use(cors());  //Add CORS
+app.use('/api', routes); // Add routes.
+
 //const { sequelize, models } = require('./models');
 const sequelize = require('./models').sequelize; // import Sequelize
 
@@ -24,10 +25,14 @@ app.use(morgan('dev'));
 app.set('port', process.env.PORT || 5000);
 
 
-//Simple Usage (Enable All CORS Requests)
-app.get('/products/:id', function (req, res, next) {
-  res.json({msg: 'This is CORS-enabled for all origins!'})
-})
+// //Simple Usage (Enable All CORS Requests)
+// app.get('/courses/:id', function (req, res, next) {
+//   res.json({msg: 'This is CORS-enabled for all origins!'})
+// })
+
+// app.get('/courses/', function (req, res, next) {
+//   res.json({msg: 'This is CORS-enabled for all origins!'})
+// })
  
 app.listen(80, function () {
   console.log('CORS-enabled web server listening on port 80')
